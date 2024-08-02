@@ -45,6 +45,12 @@ Una vez que hayas configurado las variables de entorno en un archivo `.env`, pue
 
     Esto creata Tasks de prueba
 
+3. **Correr el proyecto en modo desarrollo**: Luego de correr los seeders, utiliza el siguiente comando para ejecutar el proyecto en develop:
+
+    ```bash
+    yarn start:dev
+    ```
+
 ## Cors
 
 Puedes cambiar las configuraciones CORS en `src/main.ts`. Por defecto todas las peticiones son admitidas
