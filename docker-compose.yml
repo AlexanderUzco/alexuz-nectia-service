@@ -1,0 +1,25 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: api
+        ports:
+            - '3000:3000'
+        environment:
+            BASE_DB_URI:
+            JWT_SECRET:
+        volumes:
+            - .:/api
+        command: yarn start:dev
+
+    mongo:
+        image: mongo
+        container_name: mongo
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongo-data:/data/db
+
+volumes:
+    mongo-data:
