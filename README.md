@@ -109,7 +109,8 @@ Para que una ruta solo pueda ser accedida por un usuario admin puedes usar el gu
 -   **POST /tasks**: Crea una nueva tarea
 -   **GET /tasks**: Obtiene todas las tareas
 -   **GET /tasks/:id**: Obtiene una tarea específica por ID
--   **POST /tasks/:id**: Actualiza una tarea específica por ID
+-   **POST /tasks/update/:id**: Actualiza una tarea específica por ID
+-   **PUT /tasks/:id/completed**: Completa una Task
 
 ## Running the App
 
