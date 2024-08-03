@@ -6,7 +6,7 @@ export class CreateUserDto {
     @IsString()
     @Type(() => String)
     @Optional()
-    _id?: string;
+    readonly _id?: string = '';
 
     @IsString()
     @Type(() => String)
