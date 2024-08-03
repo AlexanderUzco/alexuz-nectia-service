@@ -127,4 +127,22 @@ export class TasksController {
             );
         }
     }
+
+    @Get('user/:userID')
+    async getByUser(@Param('userID') userID: string) {
+        try {
+            return this.tasksService.getByUser(userID);
+        } catch (error) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.FORBIDDEN,
+                    error: error || 'ERROR GET TASKS BY USER',
+                },
+                HttpStatus.FORBIDDEN,
+                {
+                    cause: error,
+                },
+            );
+        }
+    }
 }

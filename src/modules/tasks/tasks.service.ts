@@ -44,4 +44,8 @@ export class TasksService {
         task.completed = !task.completed;
         return task.save();
     }
+
+    async getByUser(userID: string) {
+        return this.taskModel.find({ userID }).exec();
+    }
 }
