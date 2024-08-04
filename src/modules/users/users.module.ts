@@ -10,6 +10,7 @@ import {
 } from '../accesstoken/schemas/accessTokens.schema';
 import { AccessTokenModule } from '../accesstoken/accessTokens.module';
 import { AuthModule } from '../auth/auth.module';
+import { TaskModule } from '../tasks/tasks.module';
 
 @Module({
     imports: [
@@ -37,6 +38,7 @@ import { AuthModule } from '../auth/auth.module';
             EDatabaseName.AUTH,
         ),
         AccessTokenModule,
+        TaskModule,
         forwardRef(() => AuthModule),
     ],
     controllers: [UsersController],

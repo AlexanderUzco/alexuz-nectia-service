@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Task, TaskSchema } from './schemas/tasks.schame';
 import { EDatabaseName } from 'src/common/constants/database.constants';
@@ -22,7 +22,7 @@ import { TasksService } from './tasks.service';
             ],
             EDatabaseName.AUTH,
         ),
-        UsersModule,
+        forwardRef(() => UsersModule),
     ],
     controllers: [TasksController],
     providers: [TasksService],

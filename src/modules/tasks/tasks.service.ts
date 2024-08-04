@@ -48,4 +48,8 @@ export class TasksService {
     async getByUser(userID: string) {
         return this.taskModel.find({ userID }).exec();
     }
+
+    async deleteTasksByUser(userID: string) {
+        return this.taskModel.deleteMany({ userID }).exec();
+    }
 }

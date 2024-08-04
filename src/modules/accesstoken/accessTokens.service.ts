@@ -50,6 +50,6 @@ export class AccessTokensService {
     }
 
     async deleteByUserId(userID: string) {
-        return this.accessTokenModel.deleteMany({ userID });
+        return this.accessTokenModel.deleteMany({ userID }).exec();
     }
 }

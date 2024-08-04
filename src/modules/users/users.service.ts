@@ -16,6 +16,7 @@ import { AuthUserDto } from '../auth/dtos/auth-user.dto';
 import { FindOneByParamsDto } from './dtos/find-one-by-params.dto';
 import { DesactivateUserDto } from './dtos/desactivate-user.dto';
 import { UpdateByAdminDto } from './dtos/update-by-admin.dto';
+import { TasksService } from '../tasks/tasks.service';
 
 @Injectable()
 export class UsersService {
@@ -23,6 +24,7 @@ export class UsersService {
         @InjectModel(User.name, EDatabaseName.AUTH)
         private readonly userModel: Model<UserDocument>,
         private readonly accessTokensService: AccessTokensService,
+        private readonly taksService: TasksService,
     ) {}
 
     async findAll() {
@@ -203,6 +205,12 @@ export class UsersService {
     async setDeletedUser(id: Types.ObjectId) {
         const existUser = await this.findOneById(id);
         if (!existUser) throw new BadRequestException(UserExceptions.NOT_FOUND);
+
+        //Delete User Tasks
+        await this.taksService.deleteTasksByUser(existUser._id as string);
+
+        //Delete User Access Tokens
+        await this.accessTokensService.deleteByUserId(existUser._id as string);
 
         //Delete User
         return this.userModel.deleteOne({ _id: id }).exec();
