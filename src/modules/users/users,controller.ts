@@ -179,7 +179,6 @@ export class UsersController {
     @UseGuards(AdminGuard)
     async deleteUser(@Param('id') id: Types.ObjectId) {
         try {
-            console.log({ id });
             return this.usersService.setDeletedUser(id);
         } catch (error) {
             throw new HttpException(
