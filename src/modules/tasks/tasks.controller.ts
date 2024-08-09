@@ -4,145 +4,60 @@ import {
     Post,
     Body,
     Param,
-    HttpException,
-    HttpStatus,
     Delete,
     Put,
 } from '@nestjs/common';
 
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dtos/create-task.dto';
+import { HandleException } from 'src/decorators/handle-exceptio-decorator.decorator';
 
 @Controller('tasks')
 export class TasksController {
     constructor(private readonly tasksService: TasksService) {}
 
     @Post()
+    @HandleException('ERROR CREATE TASK')
     async create(@Body() createTaskDto: CreateTaskDto) {
-        try {
-            return this.tasksService.create(createTaskDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR CREATE TASK',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.create(createTaskDto);
     }
 
     @Get()
+    @HandleException('ERROR FIND ALL TASKS')
     async findAll() {
-        try {
-            return this.tasksService.findAll();
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR FIND ALL TASKS',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.findAll();
     }
 
     @Get(':id')
+    @HandleException('ERROR FIND TASK')
     async findOne(@Param('id') id: string) {
-        try {
-            return this.tasksService.findOne(id);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR FIND TASK',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.findOne(id);
     }
 
     @Post('update/:id')
+    @HandleException('ERROR UPDATE TASK')
     async update(
         @Param('id') id: string,
         @Body() createTaskDto: CreateTaskDto,
     ) {
-        try {
-            return this.tasksService.update(id, createTaskDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR UPDATE TASK',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.update(id, createTaskDto);
     }
 
     @Delete(':id')
+    @HandleException('ERROR REMOVE TASK')
     async remove(@Param('id') id: string) {
-        try {
-            return this.tasksService.remove(id);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR REMOVE TASK',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.remove(id);
     }
 
     @Put(':id/completed')
+    @HandleException('ERROR SET COMPLETED TASK')
     async setCompletedTask(@Param('id') id: string) {
-        try {
-            return this.tasksService.setCompletedTask(id);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR SET COMPLETED TASK',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.setCompletedTask(id);
     }
 
     @Get('user/:userID')
+    @HandleException('ERROR GET TASKS BY USER')
     async getByUser(@Param('userID') userID: string) {
-        try {
-            return this.tasksService.getByUser(userID);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR GET TASKS BY USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.tasksService.getByUser(userID);
     }
 }

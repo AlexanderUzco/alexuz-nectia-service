@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Body,
-    HttpException,
-    HttpStatus,
-    UseGuards,
-    Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { AuthUser } from '../auth/auth.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { SigninDto } from './dtos/signin.dto';
@@ -18,179 +9,73 @@ import { DesactivateUserDto } from './dtos/desactivate-user.dto';
 import { AdminGuard } from '../auth/auth.guard';
 import { UpdateByAdminDto } from './dtos/update-by-admin.dto';
 import { Types } from 'mongoose';
+import { HandleException } from 'src/decorators/handle-exceptio-decorator.decorator';
 
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post('/signup')
+    @HandleException('ERROR CREATE USER')
     async signup(@Body() createUserDto: CreateUserDto) {
-        try {
-            return this.usersService.createUser(createUserDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR CREATE USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.createUser(createUserDto);
     }
 
     @Post('/signin')
+    @HandleException('ERROR SIGNIN USER')
     async signin(@Body() signinDto: SigninDto) {
-        try {
-            return this.usersService.signin(signinDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR SIGNIN USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.signin(signinDto);
     }
 
     @Get('/signout')
+    @HandleException('ERROR SIGNOUT USER')
     async signout(@AuthUser() user: AuthUserDto) {
-        try {
-            return this.usersService.signout(user._id);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR SIGNOUT USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.signout(user._id);
     }
 
     @Get('/verify-token')
+    @HandleException('ERROR VERIFY TOKEN')
     async verifyToken(@AuthUser() user: AuthUserDto) {
-        try {
-            return await this.usersService.verifyToken(user);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error.message || 'ERROR VERIFY TOKEN',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.verifyToken(user);
     }
 
     @Get()
     @UseGuards(AdminGuard)
+    @HandleException('ERROR FIND ALL USERS')
     async findAll() {
-        try {
-            return this.usersService.findAll();
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR FIND ALL USERS',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.findAll();
     }
 
     @Post('/update-by-admin')
     @UseGuards(AdminGuard)
+    @HandleException('ERROR UPDATE BY ADMIN')
     async updateByAdmin(@Body() updateByAdminDto: UpdateByAdminDto) {
-        try {
-            return this.usersService.updateByAdmin(updateByAdminDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR UPDATE BY ADMIN',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.updateByAdmin(updateByAdminDto);
     }
 
     @Post('/create-from-admin')
     @UseGuards(AdminGuard)
+    @HandleException('ERROR CREATE USER FROM ADMIN')
     async createFromAdmin(@Body() createUserDto: CreateUserDto) {
-        try {
-            return this.usersService.createUser(createUserDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR CREATE USER FROM ADMIN',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.createUser(createUserDto);
     }
 
     @Post('find-by-email')
+    @HandleException('ERROR FIND USER BY EMAIL')
     async findByEmail(@Body() findByEmailDto: FindByEmailDto) {
         return this.usersService.findOneByEmail(findByEmailDto.email);
     }
 
     @Post('/desactivate-user')
+    @HandleException('ERROR DESACTIVATE USER')
     async desactivateUser(@Body() desactivateUserDto: DesactivateUserDto) {
-        try {
-            return this.usersService.desactivateUser(desactivateUserDto);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR DESACTIVATE USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.desactivateUser(desactivateUserDto);
     }
 
     @Post('/delete-user/:id')
     @UseGuards(AdminGuard)
+    @HandleException('ERROR DELETE USER')
     async deleteUser(@Param('id') id: Types.ObjectId) {
-        try {
-            return this.usersService.setDeletedUser(id);
-        } catch (error) {
-            throw new HttpException(
-                {
-                    status: HttpStatus.FORBIDDEN,
-                    error: error || 'ERROR DELETE USER',
-                },
-                HttpStatus.FORBIDDEN,
-                {
-                    cause: error,
-                },
-            );
-        }
+        return this.usersService.setDeletedUser(id);
     }
 }
