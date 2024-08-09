@@ -84,7 +84,7 @@ const excludedRoutes = [
 Para que una ruta solo pueda ser accedida por un usuario admin puedes usar el guard AdminGuard
 
 ```js
-// \src\modules\users\users,controller.ts:138
+// \src\modules\users\users,controller.ts:56
     @Post('/create-from-admin')
     @UseGuards(AdminGuard) // <-- Aplicando el AdminGuard
     async createFromAdmin(@Body() createUserDto: CreateUserDto) {
