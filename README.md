@@ -87,6 +87,7 @@ Para que una ruta solo pueda ser accedida por un usuario admin puedes usar el gu
 // \src\modules\users\users,controller.ts:56
     @Post('/create-from-admin')
     @UseGuards(AdminGuard) // <-- Aplicando el AdminGuard
+    @HandleException('ERROR CREATE USER FROM ADMIN')
     async createFromAdmin(@Body() createUserDto: CreateUserDto) {
         /// Resto del codigo
     }
